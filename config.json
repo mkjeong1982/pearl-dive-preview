@@ -1,0 +1,7 @@
+{
+  "dailyVein": true,
+  "dailyGoals": true,
+  "offlineChest": true,
+  "offlineCapHours": 8,
+  "ftueAutoStartS": 12
+}
