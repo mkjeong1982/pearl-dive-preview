@@ -7,7 +7,8 @@
     
     <link rel="preload" as="image" href="assets/boot/title_bg.png" fetchpriority="high" /><style>#boot { background: #0f3a52 url(assets/boot/title_bg.png) center / cover no-repeat !important; }</style>
     <style>
-      html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #0f3a52; overscroll-behavior: none; }
+      html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #0f3a52; overscroll-behavior: none;
+        -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; }
       #game { position: fixed; inset: 0; touch-action: none; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
       canvas { display: block; touch-action: none; }
       #boot { position: fixed; inset: 0; z-index: 10; pointer-events: none; transition: opacity 0.35s ease-out; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -34,8 +35,26 @@
         }, true);
         window.addEventListener("keyup", function () { if (e && e.kind === "keyboard") e.down = false; }, true);
       })();
+      // iOS: a sound context goes "interrupted" (another app, a call, the page in the background) and stays silent until
+      // resumed inside a user gesture — every touchend / pointerup / keyup resumes the game's context (CG requirement)
+      (function () {
+        var AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return;
+        var list = (window.__dzAudioCtx = []);
+        function Wrapped(o) { var c = o === undefined ? new AC() : new AC(o); list.push(c); return c; }
+        Wrapped.prototype = AC.prototype;
+        try { window.AudioContext = Wrapped; if (window.webkitAudioContext) window.webkitAudioContext = Wrapped; } catch (err) {}
+        function resume() {
+          if (document.visibilityState === "hidden") return;
+          for (var i = 0; i < list.length; i++) {
+            var c = list[i];
+            if (c.state === "suspended" || c.state === "interrupted") { try { c.resume().catch(function () {}); } catch (err) {} }
+          }
+        }
+        ["touchend", "pointerup", "keyup"].forEach(function (t) { window.addEventListener(t, resume, { capture: true, passive: true }); });
+      })();
     </script>
-    <script type="module" crossorigin src="/pearl-dive-preview/assets/index-D1rjIPKF.js"></script>
+    <script type="module" crossorigin src="/pearl-dive-preview/assets/index-wDKJMSlZ.js"></script>
   </head>
   <body>
     <div id="game"></div>
