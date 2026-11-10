@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+    <title>Digzy: Dig to the Core</title>
+    
+    <link rel="preload" as="image" href="assets/boot/title_bg.png" fetchpriority="high" /><style>#boot { background: #2b1d14 url(assets/boot/title_bg.png) center / cover no-repeat !important; }</style>
+    <style>
+      html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #2b1d14; overscroll-behavior: none; }
+      #game { position: fixed; inset: 0; touch-action: none; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+      canvas { display: block; touch-action: none; }
+      #boot { position: fixed; inset: 0; z-index: 10; pointer-events: none; transition: opacity 0.35s ease-out; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        background: linear-gradient(#8fd3ff 0 34%, #5bbf3a 34% 37%, #9a6235 37% 70%, #6d6a64 70%); background-size: cover; background-position: center; }
+      #boot.out { opacity: 0; }
+      #boot .title { position: absolute; left: 0; right: 0; top: 14%; text-align: center; color: #fff; font-weight: 900; letter-spacing: 1px;
+        font-size: clamp(44px, 9vmin, 96px); -webkit-text-stroke: 3px #2a1a10; paint-order: stroke fill; text-shadow: 0 5px 0 #2a1a10; }
+      #boot .sub { display: block; font-size: 0.36em; letter-spacing: 3px; margin-top: 6px; -webkit-text-stroke: 2px #2a1a10; text-shadow: 0 3px 0 #2a1a10; color: #ffe14d; }
+      #boot .bar { position: absolute; left: 50%; bottom: calc(14% + env(safe-area-inset-bottom, 0px)); width: min(70vw, 420px); height: 20px; transform: translateX(-50%);
+        border: 4px solid #2a1a10; border-radius: 14px; background: rgba(0, 0, 0, 0.45); overflow: hidden; }
+      #boot .fill { height: 100%; width: 8%; background: linear-gradient(#ffe14d, #ffa62b); border-radius: 10px; transition: width 0.15s; }
+    </style>
+    <script>
+      // a press while the page still loads is kept (the game applies it once it is up — input never dropped)
+      (function () {
+        var e = null;
+        function kind(ev) { return ev.pointerType === "touch" ? "touch" : "mouse"; }
+        window.addEventListener("pointerdown", function (ev) { if (window.__dzEarlyDone || (ev.pointerType !== "touch" && ev.button !== 0)) return; e = window.__dzEarly = { down: true, kind: kind(ev), x: ev.clientX, at: performance.now() }; }, true);
+        window.addEventListener("pointerup", function () { if (e) e.down = false; }, true);
+        window.addEventListener("keydown", function (ev) {
+          if (ev.code === "Space" || ev.code.indexOf("Arrow") === 0) ev.preventDefault();
+          if (window.__dzEarlyDone || !(ev.code === "Space" || ev.code === "ArrowDown")) return;
+          e = window.__dzEarly = { down: true, kind: "keyboard", x: 0, at: performance.now() };
+        }, true);
+        window.addEventListener("keyup", function () { if (e && e.kind === "keyboard") e.down = false; }, true);
+      })();
+    </script>
+    <script type="module" crossorigin src="/digzy-preview/assets/index-CcjV5Bd-.js"></script>
+  </head>
+  <body>
+    <div id="game"></div>
+    <div id="boot"><div class="title">Digzy<span class="sub">DIG TO THE CORE</span></div><div class="bar"><div class="fill"></div></div></div>
+  </body>
+</html>
