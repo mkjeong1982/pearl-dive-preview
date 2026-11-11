@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
     <title>Pip's Pearl Dive</title>
     
-    <link rel="preload" as="image" href="assets/boot/title_bg.png" fetchpriority="high" /><style>#boot { background: #0f3a52 url(assets/boot/title_bg.png) center / cover no-repeat !important; }</style>
+    <link rel="preload" as="image" href="assets/boot/title_bg.jpg" media="(min-aspect-ratio: 1/1)" fetchpriority="high" /><link rel="preload" as="image" href="assets/boot/title_bg_portrait.jpg" media="(max-aspect-ratio: 1/1)" fetchpriority="high" /><style>#boot { background: #0f3a52 url(assets/boot/title_bg.jpg) center / cover no-repeat !important; }@media (max-aspect-ratio: 1/1) { #boot { background-image: url(assets/boot/title_bg_portrait.jpg) !important; background-position: center top !important; } #boot .title { top: 3% !important; font-size: clamp(26px, 6.4vmin, 64px) !important; } }@media (min-aspect-ratio: 1/1) and (max-height: 520px) { #boot .title { top: 3% !important; font-size: clamp(24px, 8vh, 48px) !important; } }</style>
     <style>
       html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #0f3a52; overscroll-behavior: none;
         -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; }
@@ -54,7 +54,7 @@
         ["touchend", "pointerup", "keyup"].forEach(function (t) { window.addEventListener(t, resume, { capture: true, passive: true }); });
       })();
     </script>
-    <script type="module" crossorigin src="/pearl-dive-preview/assets/index-Do3hJrUj.js"></script>
+    <script type="module" crossorigin src="/pearl-dive-preview/assets/index-DkHgAX4Y.js"></script>
   </head>
   <body>
     <div id="game"></div>
